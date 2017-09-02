@@ -5,6 +5,12 @@ npm-debug.log*
 yarn-debug.log*
 yarn-error.log*
 
+
+
+#ignore the ide config
+*.idea/
+
+
 # Runtime data
 pids
 *.pid
@@ -57,5 +63,3 @@ typings/
 # dotenv environment variables file
 .env
 
-# .idea dir
-**.idea/

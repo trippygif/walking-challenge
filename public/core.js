@@ -23,8 +23,6 @@ function mainController($scope, $http){
 
         $http.get('/api/step-count')
             .success(function(data){
-
-
                 console.log(data);
 
                 /*
