@@ -19,6 +19,9 @@ function mainController($scope, $http){
 
     $http.get('/api/teams')
         .success(function(data){
+            console.log(data);
+
+            /*
             var returnArr = [];
             var run = false;
 
@@ -36,8 +39,11 @@ function mainController($scope, $http){
             }
 
             if(run){
+                console.log(returnArr);
                 $scope.teams = returnArr;
-            }
+            }*/
+
+            $scope.teams = data;
         })
         .error(function(err){
             console.log('Error: ' + error);
@@ -49,6 +55,7 @@ function mainController($scope, $http){
 
         $http.get('/api/step-count')
             .success(function(data){
+                /*
                 console.log(data);
                 var run = false;
 
@@ -96,7 +103,17 @@ function mainController($scope, $http){
                             console.log('Error: ' + error);
                         });
 
-                }
+                }*/
+
+                return $http.post('/api/step-count', $scope.formData)
+                    .success(function(data){
+                        $scope.formData = {};
+                        $scope.steps = data;
+                        console.log(data);
+                    })
+                    .error(function(error){
+                        console.log('Error: ' + error);
+                    });
 
             })
     }
