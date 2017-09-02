@@ -67,6 +67,7 @@ app.post('/api/step-count', function(req, res){
 
 //update an existing user
 app.patch('/api/step-count', function(req, res){
+
    UserSteps.findOneAndUpdate(
        {name: req.body.name, team:req.body.team},
        {steps: req.body.steps},

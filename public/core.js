@@ -48,7 +48,6 @@ function mainController($scope, $http){
                                 });
                         }
 
-
                         if(i === data.length -1){
                             run = true;
                         }
