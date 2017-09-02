@@ -17,6 +17,32 @@ function mainController($scope, $http){
             console.log('Error: ' + error);
         });
 
+    $http.get('/api/teams')
+        .success(function(data){
+            var returnArr = [];
+            var run = false;
+
+            if(data.length > 0){
+                for(var i = 0; i < data.length; i++){
+                    returnArr.push(data[i]['team']);
+                    if(i === data.length-1){
+                        run = true;
+                    }
+                }
+            }
+
+            else{
+                run = true;
+            }
+
+            if(run){
+                $scope.teams = returnArr;
+            }
+        })
+        .error(function(err){
+            console.log('Error: ' + error);
+        });
+
     //post the data to the mongoDB
     //on success, clear out the form for a new entry
     $scope.createSteps = function(){

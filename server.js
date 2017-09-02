@@ -42,6 +42,17 @@ app.get('/api/step-count', function(req, res){
    })
 });
 
+//get all of the team names
+app.get('/api/teams', function(req, res){
+    UserSteps.find().distinct('team', function(err, teams){
+        if(err){
+            res.send(err);
+        }
+
+        res.json(teams);
+    })
+});
+
 //post an entry in the userSteps table
 app.post('/api/step-count', function(req, res){
    UserSteps.create({

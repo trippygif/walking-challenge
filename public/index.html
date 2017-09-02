@@ -26,6 +26,19 @@
             <h1>Please enter your name, step count and walking team</h1>
         </div>
 
+
+        <!-- todo get this to show all teams and add a sort! maybe make admin function to add teams and client has to choose from teams! -->
+        <div class="dropdown">
+            <button class="btn btn-primary dropdown-toggle" type="button" data-toggle="dropdown">Dropdown Example
+                <span class="caret"></span></button>
+            <ul class="dropdown-menu" ng-for="team in teams">
+                <li><a href="#">{{team}}</a></li>
+            </ul>
+        </div>
+
+
+
+
         <div id="steps-list">
 
                 <!-- LOOP OVER THE TODOS IN $scope.todos -->
