@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html ng-app="stepCounter">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <title>Walking Challenge Step Counter</title>
+
+    <link rel="stylesheet" href="//netdna.bootstrapcdn.com/bootstrap/3.0.0/css/bootstrap.min.css"><!-- load bootstrap -->
+    <style>
+        html                    { overflow-y:scroll; }
+        body                    { padding-top:50px; }
+        #steps-list              { margin-bottom:30px; }
+    </style>
+
+    <!-- SPELLS -->
+    <script src="//ajax.googleapis.com/ajax/libs/jquery/2.0.3/jquery.min.js"></script><!-- load jquery -->
+    <script src="//ajax.googleapis.com/ajax/libs/angularjs/1.0.8/angular.min.js"></script><!-- load angular -->
+    <script src="core.js"></script>
+</head>
+
+<body ng-controller="mainController">
+    <div class="container">
+
+        <div class="jumbotron text-center">
+            <h1>Please enter your name, step count and walking team</h1>
+        </div>
+
+        <div id="steps-list">
+
+                <!-- LOOP OVER THE TODOS IN $scope.todos -->
+            <table class="table">
+               <thead>
+                   <tr>
+                       <th>Name</th>
+                       <th>Steps</th>
+                       <th>Team</th>
+                       <th>Date</th>
+                   </tr>
+               </thead>
+                <tbody ng-repeat="step in steps">
+                    <tr>
+                        <td>{{step.name}}</td>
+                        <td>{{step.steps}}</td>
+                        <td>{{step.team}}</td>
+                        <td>Today</td>
+                    </tr>
+                </tbody>
+            </table>
+
+
+        </div>
+
+        <div id="step-form" class="row">
+            <div class="col-sm-8 col-sm-offset-2 text-center">
+                <form>
+                    <div class="form-group">
+
+                        <!-- BIND THIS VALUE TO formData.text IN ANGULAR -->
+                        <input type="text" class="form-control input-lg text-center" placeholder="Step Name" ng-model="formData.name">
+                        <input type="text" class="form-control input-lg text-center" placeholder="Step Count" ng-model="formData.steps">
+                        <input type="text" class="form-control input-lg text-center" placeholder="Walking Team" ng-model="formData.team">
+                    </div>
+
+                    <!-- createToDo() WILL CREATE NEW TODOS -->
+                    <button type="submit" class="btn btn-primary btn-lg" ng-click="createSteps()">Add</button>
+                </form>
+            </div>
+        </div>
+
+    </div>
+</body>
+</html>
