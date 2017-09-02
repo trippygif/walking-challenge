@@ -24,12 +24,20 @@ function mainController($scope, $http){
         $http.get('/api/step-count')
             .success(function(data){
                 console.log(data);
+                var run = false;
 
-                /*
+
+                //need to get this to work, want to do update on rows w/ name && team that exist
+
                 if(data.length > 0){
-                    data.forEach(function(element){
-                        if($scope.formData.name === element.name){
-                            return $http.patch('/api/step-count', $scope.formData)
+                    for(var i = 0; i < data.length; i++){
+                        if($scope.formData.name === data[i].name){
+                            return $http({
+                                method: 'PATCH',
+                                url: '/api/step-count',
+                                data: $scope.formData,
+                                headers: {'Content-Type': 'application/json'}
+                            })
                                 .success(function(data){
                                     $scope.formData = {};
                                     $scope.steps = data;
@@ -39,18 +47,31 @@ function mainController($scope, $http){
                                     console.log('Error: ' + error);
                                 });
                         }
-                    });
-                }*/
 
-                return $http.post('/api/step-count', $scope.formData)
-                    .success(function(data){
-                        $scope.formData = {};
-                        $scope.steps = data;
-                        console.log(data);
-                    })
-                    .error(function(error){
-                        console.log('Error: ' + error);
-                    });
+
+                        if(i === data.length -1){
+                            run = true;
+                        }
+
+                    };
+                }
+                else{
+                    run = true;
+                }
+
+                if(run){
+                    console.log('are we here??');
+                    return $http.post('/api/step-count', $scope.formData)
+                        .success(function(data){
+                            $scope.formData = {};
+                            $scope.steps = data;
+                            console.log(data);
+                        })
+                        .error(function(error){
+                            console.log('Error: ' + error);
+                        });
+
+                }
 
             })
     }

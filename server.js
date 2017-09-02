@@ -70,14 +70,20 @@ app.patch('/api/step-count', function(req, res){
    UserSteps.findOneAndUpdate(
        {name: req.body.name, team:req.body.team},
        {steps: req.body.steps},
-       {},
-       function(err, steps){
-           if(err){
-               res.send(err)
+       {new: true},
+       function(err, steps) {
+           if (err) {
+               res.send(err);
            }
-           res.json(steps);
-       }
-   )
+
+           UserSteps.find(function (err, stepCount) {
+               if (err) {
+                   res.send(err);
+               }
+
+               res.json(stepCount);
+           })
+       })
 });
 
 //get a specific row per user
