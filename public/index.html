@@ -29,18 +29,18 @@
 
         <!-- todo get this to show all teams and add a sort! maybe make admin function to add teams and client has to choose from teams! -->
         <div class="form-group">
-            <select class="form-control">
-                <option ng-repeat="team in teams" value="{{team}}">{{team}}</option>
+            <select class="form-control" id="teams-list" ng-model="formData.team">
+                <option name="team" ng-repeat="team in teams" value="{{team}}" ng-change="getTeams({{team}})" ng-model="team">{{team}}</option>
             </select>
         </div>
 
 
 
 
-        <div id="steps-list" class="form-group">
+        <div id="steps-list" class="form-group" ng-if="team.value">
 
                 <!-- LOOP OVER THE TODOS IN $scope.todos -->
-            <table class="table">
+            <table class="table" >
                <thead>
                    <tr>
                        <th>Name</th>
@@ -49,12 +49,12 @@
                        <th>Date</th>
                    </tr>
                </thead>
-                <tbody ng-repeat="step in steps">
+                <tbody ng-repeat="step in steps | filter:formData.team:strict">
                     <tr>
                         <td>{{step.name}}</td>
                         <td>{{step.steps}}</td>
                         <td>{{step.team}}</td>
-                        <td>Today</td>
+                        <td>{{step.createdAt | date: shortDate }}</td>
                     </tr>
                 </tbody>
             </table>
@@ -70,7 +70,6 @@
                         <!-- BIND THIS VALUE TO formData.text IN ANGULAR -->
                         <input type="text" class="form-control input-lg text-center" placeholder="Step Name" ng-model="formData.name">
                         <input type="text" class="form-control input-lg text-center" placeholder="Step Count" ng-model="formData.steps">
-                        <input type="text" class="form-control input-lg text-center" placeholder="Walking Team" ng-model="formData.team">
                     </div>
 
                     <!-- createToDo() WILL CREATE NEW TODOS -->
@@ -81,4 +80,5 @@
 
     </div>
 </body>
+
 </html>

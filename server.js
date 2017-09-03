@@ -23,8 +23,11 @@ app.use(methodOverride());
 var UserSteps = mongoose.model('UserSteps', {
     name: String,
     steps: Number,
-    team: String
+    team: String,
+    createdAt: {type: Date, default: Date.now},
+    updatedAt: {type: Date, default: Date.now}
 });
+
 
 //controllers ================================
 
@@ -42,23 +45,14 @@ app.get('/api/step-count', function(req, res){
    })
 });
 
-//get all of the team names
-app.get('/api/teams', function(req, res){
-    UserSteps.find().distinct('team', function(err, teams){
-        if(err){
-            res.send(err);
-        }
-
-        res.json(teams);
-    })
-});
 
 //post an entry in the userSteps table
 app.post('/api/step-count', function(req, res){
    UserSteps.create({
        name: req.body.name,
        steps: req.body.steps,
-       team: req.body.team
+       team: req.body.team,
+       createdAt: req.body.created
    }, function(err, steps){
 
        if(err){
@@ -119,6 +113,17 @@ app.get('/api/teams/:team', function(req, res){
     }, function(err, teams){
         if(err){
             res.send(err)
+        }
+
+        res.json(teams);
+    })
+});
+
+//get all of the team names
+app.get('/api/teams', function(req, res){
+    UserSteps.find().distinct('team', function(err, teams){
+        if(err){
+            res.send(err);
         }
 
         res.json(teams);
