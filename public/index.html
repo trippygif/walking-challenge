@@ -28,18 +28,16 @@
 
 
         <!-- todo get this to show all teams and add a sort! maybe make admin function to add teams and client has to choose from teams! -->
-        <div class="dropdown">
-            <button class="btn btn-primary dropdown-toggle" type="button" data-toggle="dropdown">Choose your team!
-                <span class="caret"></span></button>
-            <ul class="dropdown-menu" ng-for="team in teams">
-                <li><a href="#">{{team}}</a></li>
-            </ul>
+        <div class="form-group">
+            <select class="form-control">
+                <option ng-repeat="team in teams" value="{{team}}">{{team}}</option>
+            </select>
         </div>
 
 
 
 
-        <div id="steps-list">
+        <div id="steps-list" class="form-group">
 
                 <!-- LOOP OVER THE TODOS IN $scope.todos -->
             <table class="table">

@@ -111,6 +111,20 @@ app.get('/api/step-count/:name', function(req, res){
     })
 });
 
+//get all records per team
+//get the drop down to pass value to this function and display
+app.get('/api/teams/:team', function(req, res){
+    UserSteps.find({
+        team: req.params.team
+    }, function(err, teams){
+        if(err){
+            res.send(err)
+        }
+
+        res.json(teams);
+    })
+});
+
 //show the home screen
 app.get('/', function(req, res){
     res.sendfile('./public/index.html');

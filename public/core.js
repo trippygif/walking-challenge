@@ -1,6 +1,7 @@
 /**
  * Created by bryoe on 9/2/2017.
  */
+
 //initialization of the angular module
 var stepCounter = angular.module('stepCounter', []);
 
