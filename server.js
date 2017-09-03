@@ -2,13 +2,17 @@
 var express  = require('express');
 var app      = express();                               // create our app w/ express
 var mongoose = require('mongoose');                     // mongoose for mongodb
+var Schema = mongoose.Schema;
+var autoIncrement = require('mongoose-auto-increment');
 var morgan = require('morgan');             // log requests to the console (express4)
 var bodyParser = require('body-parser');    // pull information from HTML POST (express4)
 var methodOverride = require('method-override'); // simulate DELETE and PUT (express4)
 
 // configuration =================
 
-mongoose.connect('mongodb://localhost/walking-challenge');     // connect to mongoDB database on modulus.io
+var connection = mongoose.createConnection('mongodb://localhost/walking-challenge');     // connect to mongoDB database on modulus.io
+
+autoIncrement.initialize(connection);
 
 app.use(express.static(__dirname + '/public'));                 // set the static files location /public/img will be /img for users
 app.use(morgan('dev'));                                         // log every request to the console
@@ -20,7 +24,7 @@ app.use(methodOverride());
 
 //models ==============================
 
-var UserSteps = mongoose.model('UserSteps', {
+var stepSchema = new Schema({
     name: String,
     steps: Number,
     team: String,
@@ -28,9 +32,54 @@ var UserSteps = mongoose.model('UserSteps', {
     updatedAt: {type: Date, default: Date.now}
 });
 
+stepSchema.plugin(autoIncrement.plugin, 'UserSteps');
+var UserSteps = connection.model('UserSteps', stepSchema);
+
+var userSchema = new Schema({
+    username: String,
+    name: String,
+    team: String,
+    createdAt: {type: Date, default: Date.now},
+    updatedAt: {type: Date, default: Date.now}
+});
+
+userSchema.plugin(autoIncrement.plugin, 'Users');
+var Users = connection.model('Users', userSchema);
+
 
 //controllers ================================
 
+//get all users
+app.get('/api/users', function(req, res){
+    Users.find(function(err, users){
+        if(err){
+            res.send(err);
+        }
+
+        res.json(users);
+    })
+});
+
+//create a new user
+app.post('/api/users', function(req, res){
+    Users.create({
+        username: req.body.username,
+        name: req.body.name,
+        team: req.body.team,
+        createdAt: req.body.created,
+        updatedAt: req.body.updated
+    }, function(err, users){
+
+        Users.find(function(err, users){
+            if(err){
+                res.send(err);
+            }
+
+            res.json(users);
+        })
+
+    })
+})
 
 
 
@@ -52,7 +101,8 @@ app.post('/api/step-count', function(req, res){
        name: req.body.name,
        steps: req.body.steps,
        team: req.body.team,
-       createdAt: req.body.created
+       createdAt: req.body.created,
+       updatedAt: req.body.updated
    }, function(err, steps){
 
        if(err){
@@ -130,10 +180,28 @@ app.get('/api/teams', function(req, res){
     })
 });
 
+//temp way to get teams based on user table
+//will restructure every table
+app.get('/api/teams-temp', function(req, res){
+    Users.find().distinct('team', function(err, teams){
+        console.log('anything?');
+        if(err){
+            res.send(err);
+        }
+        console.log(teams);
+        res.json(teams);
+    })
+})
+
 //show the home screen
 app.get('/', function(req, res){
     res.sendfile('./public/index.html');
 });
+
+//show admin
+app.get('/admin', function(req, res){
+    res.sendfile('./public/admin.html');
+})
 
 
 

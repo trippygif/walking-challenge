@@ -38,8 +38,6 @@
 
 
         <div id="steps-list" class="form-group" ng-if="team.value">
-
-                <!-- LOOP OVER THE TODOS IN $scope.todos -->
             <table class="table" >
                <thead>
                    <tr>
@@ -70,6 +68,7 @@
                         <!-- BIND THIS VALUE TO formData.text IN ANGULAR -->
                         <input type="text" class="form-control input-lg text-center" placeholder="Step Name" ng-model="formData.name">
                         <input type="text" class="form-control input-lg text-center" placeholder="Step Count" ng-model="formData.steps">
+                        <input type="text" class="form-control input-lg text-center" placeholder="Step Count" ng-model="formData.team">
                     </div>
 
                     <!-- createToDo() WILL CREATE NEW TODOS -->
