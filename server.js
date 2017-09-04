@@ -53,14 +53,6 @@ var teamSchema = new Schema({
     updatedAt: {type:Date, default: Date.now}
 });
 
-
-teamSchema.plugin(autoIncrement.plugin, {
-    model: 'Teams',
-    field: 'number',
-    startAt: 1,
-    incrementBy: 1
-});
-
 var Teams = connection.model('Teams', teamSchema);
 //controllers ================================
 
@@ -170,19 +162,6 @@ app.get('/api/step-count/:name', function(req, res){
     })
 });
 
-//get all records per team
-//get the drop down to pass value to this function and display
-app.get('/api/teams/:team', function(req, res){
-    UserSteps.find({
-        team: req.params.team
-    }, function(err, teams){
-        if(err){
-            res.send(err)
-        }
-
-        res.json(teams);
-    })
-});
 
 //get all of the team names
 app.get('/api/teams', function(req, res){
@@ -198,15 +177,6 @@ app.get('/api/teams', function(req, res){
 //temp way to get teams based on user table
 //will restructure every table
 app.get('/api/teams-temp', function(req, res){
-    /*
-    Users.find().distinct('team', function(err, teams){
-        console.log('anything?');
-        if(err){
-            res.send(err);
-        }
-        console.log(teams);
-        res.json(teams);
-    })*/
     Teams.find(function(err, teams){
         if(err){
             res.send(err);
@@ -248,8 +218,16 @@ app.get('/', function(req, res){
 
 //show admin
 app.get('/admin', function(req, res){
-    res.sendfile('./public/admin.html');
-})
+    res.sendfile('./public/admin/admin.html');
+});
+
+app.get('/admin/team/:team', function(req, res){
+    res.sendfile('./public/admin/template/team.html')
+});
+
+
+
+
 
 
 

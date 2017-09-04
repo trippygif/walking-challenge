@@ -6,12 +6,31 @@ var adminApp = angular.module('adminApp', []);
 
 function mainController($scope, $http){
     $scope.formData = {};
+    $scope.filteredUsers = []
+        ,$scope.currentPage = 1
+        ,$scope.numPerPage = 4
+        ,$scope.maxSize = 5;
+
+
+
+
 
     //get a list of all users
     $http.get('/api/users')
         .success(function(data){
             $scope.users = data;
-            console.log(data);
+
+            $scope.numPages = function () {
+                return Math.ceil($scope.users.length / $scope.numPerPage);
+            };
+
+            $scope.$watch("currentPage + numPerPage", function() {
+                console.log($scope);
+                var begin = (($scope.currentPage - 1) * $scope.numPerPage)
+                    , end = begin + $scope.numPerPage;
+                console.log('$scope.users: ' + $scope.users);
+                $scope.filteredUsers = $scope.users.slice(begin, end);
+            });
         })
         .error(function(err){
             console.log(err);
@@ -52,6 +71,17 @@ function mainController($scope, $http){
             .error(function(err){
                 console.log(err);
             })
-    }
+    };
+
+    $scope.goToTeam = function(team){
+        console.log(team);
+        console.log('redirect to /admin/team/' + team.number);
+        $http.get("team/" + team.number)
+            .success(function(response){
+                $scope.team = team;
+            })
+    };
+
+
 
 }

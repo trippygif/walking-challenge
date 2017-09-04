@@ -29,15 +29,16 @@
 
         <!-- todo get this to show all teams and add a sort! maybe make admin function to add teams and client has to choose from teams! -->
         <div class="form-group">
-            <select class="form-control" id="teams-list" ng-model="formData.team">
-                <option name="team" ng-repeat="team in teams" value="{{team}}" ng-change="getTeams({{team}})" ng-model="team">{{team}}</option>
+            <select class="form-control" id="teams-list" ng-model="teamChoice">
+                <option name="show-all" value="">Show All Users</option>
+                <option name="team" ng-repeat="team in teams" value="{{team.name}}" >{{team.name}}</option>
             </select>
         </div>
 
 
 
 
-        <div id="steps-list" class="form-group" ng-if="team.value">
+        <div id="steps-list" class="form-group">
             <table class="table" >
                <thead>
                    <tr>
@@ -47,7 +48,7 @@
                        <th>Date</th>
                    </tr>
                </thead>
-                <tbody ng-repeat="step in steps | filter:formData.team:strict">
+                <tbody ng-repeat="step in steps | filter:teamChoice:strict">
                     <tr>
                         <td>{{step.name}}</td>
                         <td>{{step.steps}}</td>
@@ -68,7 +69,7 @@
                         <!-- BIND THIS VALUE TO formData.text IN ANGULAR -->
                         <input type="text" class="form-control input-lg text-center" placeholder="Step Name" ng-model="formData.name">
                         <input type="text" class="form-control input-lg text-center" placeholder="Step Count" ng-model="formData.steps">
-                        <input type="text" class="form-control input-lg text-center" placeholder="Step Count" ng-model="formData.team">
+                        <input type="text" class="form-control input-lg text-center" placeholder="Step Count" ng-model="formData.team.name">
                     </div>
 
                     <!-- createToDo() WILL CREATE NEW TODOS -->

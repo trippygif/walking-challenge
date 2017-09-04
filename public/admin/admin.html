@@ -15,7 +15,8 @@
 
     <!-- SPELLS -->
     <script src="//ajax.googleapis.com/ajax/libs/jquery/2.0.3/jquery.min.js"></script><!-- load jquery -->
-    <script src="//ajax.googleapis.com/ajax/libs/angularjs/1.0.8/angular.min.js"></script><!-- load angular -->
+    <script src="//ajax.googleapis.com/ajax/libs/angularjs/1.6.4/angular.min.js"></script><!-- load angular -->
+    <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.6.4/angular-animate.js"></script>
     <script src="admin.js"></script>
 </head>
 <body ng-controller="mainController">
@@ -25,51 +26,55 @@
             <h3>Manage users and teams</h3>
         </div>
 
-        <!--
-        <div class="form-group">
-            <select class="form-control" id="teams-list" ng-model="teamChoice">
-                <option name="show-all" value="">Show All Users</option>
-                <option name="team" ng-repeat="team in teams" value="{{team}}" >{{team}}</option>
-            </select>
+        <div class="ng-hide" ng-show="team">
+            <div class="form-group">
+                <select class="form-control" id="teams-list" ng-model="teamChoice">
+                    <option name="show-all" value="">Show All Users</option>
+                    <option name="team" ng-repeat="team in teams" value="{{team.name}}" >{{team.name}}</option>
+                </select>
+            </div>
+
+            <div id="user-list" class="form-group">
+                <table class="table" >
+                    <thead>
+                    <tr>
+                        <th>Username</th>
+                        <th>Name</th>
+                        <th>Team</th>
+                    </tr>
+                    </thead>
+                    <tbody ng-repeat="user in users | filter:teamChoice:strict">
+                    <tr>
+                        <td>{{user.username}}</td>
+                        <td>{{user.name}}</td>
+                        <td>{{user.team}}</td>
+                    </tr>
+                    </tbody>
+                </table>
+
+                <div data-pagination="" data-num-pages="numPages()"
+                     data-current-page="currentPage" data-max-size="maxSize"
+                     data-boundary-links="true"></div>
+            </div>
         </div>
 
-        <div id="user-list" class="form-group">
-            <table class="table" >
-                <thead>
-                <tr>
-                    <th>Username</th>
-                    <th>Name</th>
-                    <th>Team</th>
-                </tr>
-                </thead>
-                <tbody ng-repeat="user in users | filter:teamChoice">
-                <tr>
-                    <td>{{user.username}}</td>
-                    <td>{{user.name}}</td>
-                    <td>{{user.team}}</td>
-                </tr>
-                </tbody>
-            </table>
-
-
-        </div>
-
-        <div id="step-form" class="row">
+        <div id="user-form" class="row">
             <div class="col-sm-8 col-sm-offset-2 text-center">
                 <form>
                     <div class="form-group">
-
-
-                        <input type="text" class="form-control input-lg text-center" placeholder="User Name" ng-model="formData.username">
+                        <input type="text" class="form-control input-lg text-center" placeholder="Username" ng-model="formData.username">
                         <input type="text" class="form-control input-lg text-center" placeholder="Name" ng-model="formData.name">
-                        <input type="text" class="form-control input-lg text-center" placeholder="Team" ng-model="formData.team">
+                        <select class="form-control"  ng-model="formData.team">
+                            <option ng-repeat="team in teams" value="{{team.name}}">{{team.name}}</option>
+                        </select>
                     </div>
 
                     <button type="submit" class="btn btn-primary btn-lg" ng-click="createUser()">Add</button>
                 </form>
             </div>
-        </div> -->
+        </div>
 
+    <!--
         <div id="team-list" class="form-group">
             <table class="table" >
                 <thead>
@@ -81,7 +86,7 @@
                 <tbody ng-repeat="team in teams | filter:teamChoice">
                 <tr>
                     <td>{{team.number}}</td>
-                    <td>{{team.name}}</td>
+                    <td><a ng-click="goToTeam(team)">{{team.name}}</a></td>
                 </tr>
                 </tbody>
             </table>
@@ -91,13 +96,14 @@
             <div class="col-sm-8 col-sm-offset-2 text-center">
                 <form>
                     <div class="form-group">
+                        <input type="number" class="form-control input-lg text-center" placeholder="Team Number" ng-model="formData.number">
                         <input type="text" class="form-control input-lg text-center" placeholder="Team Name" ng-model="formData.name">
                     </div>
 
                     <button type="submit" class="btn btn-primary btn-lg" ng-click="createTeam()">Add</button>
                 </form>
             </div>
-        </div>
+        </div>-->
 
     </div>
 </body>
