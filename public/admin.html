@@ -25,6 +25,7 @@
             <h3>Manage users and teams</h3>
         </div>
 
+        <!--
         <div class="form-group">
             <select class="form-control" id="teams-list" ng-model="teamChoice">
                 <option name="show-all" value="">Show All Users</option>
@@ -67,25 +68,35 @@
                     <button type="submit" class="btn btn-primary btn-lg" ng-click="createUser()">Add</button>
                 </form>
             </div>
-        </div>
+        </div> -->
 
         <div id="team-list" class="form-group">
             <table class="table" >
                 <thead>
                 <tr>
-                    <th>Username</th>
-                    <th>Name</th>
-                    <th>Team</th>
+                    <th>Team Number</th>
+                    <th>Team Name</th>
                 </tr>
                 </thead>
-                <tbody ng-repeat="user in users | filter:teamChoice">
+                <tbody ng-repeat="team in teams | filter:teamChoice">
                 <tr>
-                    <td>{{user.username}}</td>
-                    <td>{{user.name}}</td>
-                    <td>{{user.team}}</td>
+                    <td>{{team.number}}</td>
+                    <td>{{team.name}}</td>
                 </tr>
                 </tbody>
             </table>
+        </div>
+
+        <div id="step-form" class="row">
+            <div class="col-sm-8 col-sm-offset-2 text-center">
+                <form>
+                    <div class="form-group">
+                        <input type="text" class="form-control input-lg text-center" placeholder="Team Name" ng-model="formData.name">
+                    </div>
+
+                    <button type="submit" class="btn btn-primary btn-lg" ng-click="createTeam()">Add</button>
+                </form>
+            </div>
         </div>
 
     </div>

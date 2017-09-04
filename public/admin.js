@@ -42,4 +42,16 @@ function mainController($scope, $http){
             })
     };
 
+    $scope.createTeam = function(){
+        console.log($scope.formData);
+        $http.post('/api/teams-temp', $scope.formData)
+            .success(function(data){
+                $scope.teams = data;
+                console.log(data);
+            })
+            .error(function(err){
+                console.log(err);
+            })
+    }
+
 }

@@ -23,7 +23,7 @@ function mainController($scope, $http){
 
 
 
-    $http.get('/api/teams')
+    $http.get('/api/teams-temp')
         .success(function(data){
             console.log(data);
             $scope.teams = data;

@@ -48,19 +48,20 @@ var Users = connection.model('Users', userSchema);
 
 var teamSchema = new Schema({
     number: {type: Number, default: 1},
-    team : String,
+    name : String,
     createdAt: {type:Date, default: Date.now},
     updatedAt: {type:Date, default: Date.now}
 });
 
+
 teamSchema.plugin(autoIncrement.plugin, {
-    model: 'Team',
+    model: 'Teams',
     field: 'number',
     startAt: 1,
     incrementBy: 1
 });
 
-
+var Teams = connection.model('Teams', teamSchema);
 //controllers ================================
 
 //get all users
@@ -185,7 +186,7 @@ app.get('/api/teams/:team', function(req, res){
 
 //get all of the team names
 app.get('/api/teams', function(req, res){
-    UserSteps.find().distinct('team', function(err, teams){
+    Team.find().distinct('team', function(err, teams){
         if(err){
             res.send(err);
         }
@@ -197,6 +198,7 @@ app.get('/api/teams', function(req, res){
 //temp way to get teams based on user table
 //will restructure every table
 app.get('/api/teams-temp', function(req, res){
+    /*
     Users.find().distinct('team', function(err, teams){
         console.log('anything?');
         if(err){
@@ -204,6 +206,38 @@ app.get('/api/teams-temp', function(req, res){
         }
         console.log(teams);
         res.json(teams);
+    })*/
+    Teams.find(function(err, teams){
+        if(err){
+            res.send(err);
+        }
+
+        res.json(teams);
+    })
+});
+
+app.post('/api/teams-temp', function(req, res){
+    Teams.create({
+        number: req.body.number,
+        name: req.body.name,
+        createdAt: req.body.created,
+        updatedAt: req.body.created
+    }, function(err, success){
+
+        if(err){
+            res.send(err);
+        }
+
+        Teams.find(function(err, teams){
+
+            if(err){
+                res.send(err);
+            }
+
+            res.json(teams)
+
+        })
+
     })
 })
 
