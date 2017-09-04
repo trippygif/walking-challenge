@@ -1,13 +1,13 @@
 {
-  "name"         : "walking-challange",
-  "version"      : "0.0.1",
-  "description"  : "Get and set app for walking challenge",
-  "main"         : "server.js",
-  "author"       : "Bryan Yoelin",
-  "dependencies" : {
-    "express"    : "~4.15.4",
-    "mongoose"   : "~4.11.9",
-    "morgan"     : "~1.8.2",
+  "name": "walking-challange",
+  "version": "0.0.1",
+  "description": "Get and set app for walking challenge",
+  "main": "server.js",
+  "author": "Bryan Yoelin",
+  "dependencies": {
+    "express": "~4.15.4",
+    "mongoose": "~4.11.9",
+    "morgan": "~1.8.2",
     "body-parser": "~1.17.2",
     "method-override": "~2.3.9",
     "mongoose-auto-increment": "~5.0.1"

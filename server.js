@@ -46,6 +46,20 @@ var userSchema = new Schema({
 userSchema.plugin(autoIncrement.plugin, 'Users');
 var Users = connection.model('Users', userSchema);
 
+var teamSchema = new Schema({
+    number: {type: Number, default: 1},
+    team : String,
+    createdAt: {type:Date, default: Date.now},
+    updatedAt: {type:Date, default: Date.now}
+});
+
+teamSchema.plugin(autoIncrement.plugin, {
+    model: 'Team',
+    field: 'number',
+    startAt: 1,
+    incrementBy: 1
+});
+
 
 //controllers ================================
 

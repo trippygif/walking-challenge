@@ -46,8 +46,6 @@
                     <td>{{user.username}}</td>
                     <td>{{user.name}}</td>
                     <td>{{user.team}}</td>
-                    <!--<td>{{step.team}}</td>
-                    <td>{{step.createdAt | date: shortDate }}</td>-->
                 </tr>
                 </tbody>
             </table>
@@ -60,16 +58,34 @@
                 <form>
                     <div class="form-group">
 
-                        <!-- BIND THIS VALUE TO formData.text IN ANGULAR -->
+
                         <input type="text" class="form-control input-lg text-center" placeholder="User Name" ng-model="formData.username">
                         <input type="text" class="form-control input-lg text-center" placeholder="Name" ng-model="formData.name">
                         <input type="text" class="form-control input-lg text-center" placeholder="Team" ng-model="formData.team">
                     </div>
 
-                    <!-- createToDo() WILL CREATE NEW TODOS -->
                     <button type="submit" class="btn btn-primary btn-lg" ng-click="createUser()">Add</button>
                 </form>
             </div>
+        </div>
+
+        <div id="team-list" class="form-group">
+            <table class="table" >
+                <thead>
+                <tr>
+                    <th>Username</th>
+                    <th>Name</th>
+                    <th>Team</th>
+                </tr>
+                </thead>
+                <tbody ng-repeat="user in users | filter:teamChoice">
+                <tr>
+                    <td>{{user.username}}</td>
+                    <td>{{user.name}}</td>
+                    <td>{{user.team}}</td>
+                </tr>
+                </tbody>
+            </table>
         </div>
 
     </div>
