@@ -2,12 +2,43 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Login</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <title>Team Walker Login</title>
+
+    <link rel="stylesheet" href="//netdna.bootstrapcdn.com/bootstrap/3.0.0/css/bootstrap.min.css"><!-- load bootstrap -->
+    <style>
+        html                    { overflow-y:scroll; }
+        body                    { padding-top:50px; }
+        #steps-list              { margin-bottom:30px; }
+    </style>
+
+    <!-- SPELLS -->
+    <script src="//ajax.googleapis.com/ajax/libs/jquery/2.0.3/jquery.min.js"></script><!-- load jquery -->
+    <script src="//ajax.googleapis.com/ajax/libs/angularjs/1.0.8/angular.min.js"></script><!-- load angular -->
+    <script src="authenticate.js"></script>
 </head>
 <body>
     <p>
         This will soon be a page where the user will login. Once they are logged in they will be able
         to submit their steps, look at their step progress and how other teams are holding up.
     </p>
+
+
+    <div class="container">
+        Please log in! If you do not have credentials, click <a href="#">here</a>
+
+
+        <div class="form-group">
+            <form>
+                <input placeholder="username">
+                <input placeholder="password">
+                <button type="submit">submit</button>
+            </form>
+        </div>
+
+
+
+    </div>
 </body>
 </html>

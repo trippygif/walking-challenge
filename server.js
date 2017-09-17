@@ -7,12 +7,13 @@ var autoIncrement = require('mongoose-auto-increment');
 var morgan = require('morgan');             // log requests to the console (express4)
 var bodyParser = require('body-parser');    // pull information from HTML POST (express4)
 var methodOverride = require('method-override'); // simulate DELETE and PUT (express4)
+var fs = require('fs');
+var path = require('path');
 
 // configuration =================
 
 var connection = mongoose.createConnection('mongodb://localhost/walking-challenge');     // connect to mongoDB database on modulus.io
 
-autoIncrement.initialize(connection);
 
 app.use(express.static(__dirname + '/public'));                 // set the static files location /public/img will be /img for users
 app.use(morgan('dev'));                                         // log every request to the console
@@ -23,193 +24,25 @@ app.use(methodOverride());
 
 
 //models ==============================
-
-var stepSchema = new Schema({
-    name: String,
-    steps: Number,
-    team: String,
-    createdAt: {type: Date, default: Date.now},
-    updatedAt: {type: Date, default: Date.now}
-});
-
-stepSchema.plugin(autoIncrement.plugin, 'UserSteps');
-var UserSteps = connection.model('UserSteps', stepSchema);
-
-var userSchema = new Schema({
-    username: String,
-    name: String,
-    team: String,
-    createdAt: {type: Date, default: Date.now},
-    updatedAt: {type: Date, default: Date.now}
-});
-
-userSchema.plugin(autoIncrement.plugin, 'Users');
-var Users = connection.model('Users', userSchema);
-
-var teamSchema = new Schema({
-    number: {type: Number, default: 1},
-    name : String,
-    createdAt: {type:Date, default: Date.now},
-    updatedAt: {type:Date, default: Date.now}
-});
-
-var Teams = connection.model('Teams', teamSchema);
-//controllers ================================
-
-//get all users
-app.get('/api/users', function(req, res){
-    Users.find(function(err, users){
-        if(err){
-            res.send(err);
+console.log('\r\nAutoload Models and Routes..');
+var autoLoadFolders = ['models', 'routes'];//load all controllers, models //  "models"
+autoLoadFolders.forEach(function (folder) {
+    var normalizedPath = path.join(__dirname, `/walking-challenge/../app/${folder}`);
+    fs.readdirSync(normalizedPath).forEach(function (file) {
+        console.log(normalizedPath);
+        console.log("require " + "./app/" + folder + "/" + file);
+        if (folder == "routes") {
+            require("./app/" + folder + "/" + file);//anonymous function used for less boilerplate code
+        } else {
+            require("./app/" + folder + "/" + file);
         }
-
-        res.json(users);
-    })
-});
-
-//create a new user
-app.post('/api/users', function(req, res){
-    Users.create({
-        username: req.body.username,
-        name: req.body.name,
-        team: req.body.team,
-        createdAt: req.body.created,
-        updatedAt: req.body.updated
-    }, function(err, users){
-
-        Users.find(function(err, users){
-            if(err){
-                res.send(err);
-            }
-
-            res.json(users);
-        })
-
-    })
-})
-
-
-
-//get all records in the userSteps table
-app.get('/api/step-count', function(req, res){
-   UserSteps.find(function(err, stepCount){
-       if(err){
-           res.send(err);
-       }
-
-       res.json(stepCount);
-   })
-});
-
-
-//post an entry in the userSteps table
-app.post('/api/step-count', function(req, res){
-   UserSteps.create({
-       name: req.body.name,
-       steps: req.body.steps,
-       team: req.body.team,
-       createdAt: req.body.created,
-       updatedAt: req.body.updated
-   }, function(err, steps){
-
-       if(err){
-           res.send(err);
-       }
-
-       UserSteps.find(function(err, stepCount){
-           if(err){
-               res.send(err);
-           }
-
-           res.json(stepCount);
-       })
-
-   })
-});
-
-//update an existing user
-app.patch('/api/step-count', function(req, res){
-
-   UserSteps.findOneAndUpdate(
-       {name: req.body.name, team:req.body.team},
-       {steps: req.body.steps},
-       {new: true},
-       function(err, steps) {
-           if (err) {
-               res.send(err);
-           }
-
-           UserSteps.find(function (err, stepCount) {
-               if (err) {
-                   res.send(err);
-               }
-
-               res.json(stepCount);
-           })
-       })
-});
-
-//get a specific row per user
-app.get('/api/step-count/:name', function(req, res){
-    UserSteps.findOne({
-        name: req.params.name
-    }, function(err, name){
-        if(err){
-            res.send(err)
-        }
-
-        res.json(name);
     })
 });
 
 
-//get all of the team names
-app.get('/api/teams', function(req, res){
-    Team.find().distinct('team', function(err, teams){
-        if(err){
-            res.send(err);
-        }
 
-        res.json(teams);
-    })
-});
 
-//temp way to get teams based on user table
-//will restructure every table
-app.get('/api/teams-temp', function(req, res){
-    Teams.find(function(err, teams){
-        if(err){
-            res.send(err);
-        }
 
-        res.json(teams);
-    })
-});
-
-app.post('/api/teams-temp', function(req, res){
-    Teams.create({
-        number: req.body.number,
-        name: req.body.name,
-        createdAt: req.body.created,
-        updatedAt: req.body.created
-    }, function(err, success){
-
-        if(err){
-            res.send(err);
-        }
-
-        Teams.find(function(err, teams){
-
-            if(err){
-                res.send(err);
-            }
-
-            res.json(teams)
-
-        })
-
-    })
-})
 
 //show the home screen
 app.get('/', function(req, res){
@@ -221,8 +54,8 @@ app.get('/admin', function(req, res){
     res.sendfile('./public/admin/admin.html');
 });
 
-app.get('/admin/team/:team', function(req, res){
-    res.sendfile('./public/admin/template/team.html')
+app.get('/login', function(req, res){
+    res.sendfile('./public/login.html')
 });
 
 
